@@ -1,5 +1,0 @@
-services:
-  test:
-    build: test
-  app:
-    build: app

@@ -14,8 +14,8 @@ const (
 
 type address struct {
     length []byte
-    address []byte
-    port [2]byte
+    host []byte
+    port []byte
 }
 
 func method_0(conn net.Conn) {
@@ -24,21 +24,20 @@ func method_0(conn net.Conn) {
     res := make([]byte, 4)
     conn.Read(res)
     fmt.Println("Response", res)
-    if (res[3]==3) {
-        len_buf := make([]byte, 1)
-        conn.Read(len_buf)
-        fmt.Println("Length", len_buf)
-        addr_buf := make([]byte, int(len_buf[0]))
-        conn.Read(addr_buf)
-        fmt.Println("Address", addr_buf)
-        port_buf := make([]byte, 2)
-        conn.Read(port_buf)
-        fmt.Println("Port", port_buf)
-    }
     
-    res1 := make([]byte, 100)
-    i, _ := conn.Read(res1)
-    fmt.Println("Response", string(res1[0:i-2]))    
+    if (res[3]==3) {
+
+        addr := address {
+            length:make([]byte, 1),
+            port:make([]byte, 2),
+        }
+
+        conn.Read(addr.length)
+        addr.host := make([]byte, int(addr.length[0]))
+        conn.Read(addr.host)            
+        conn.Read(addr.port)
+    }   
+
 }
 
 func method_2(conn net.Conn) {

@@ -26,14 +26,12 @@ func method_0(conn net.Conn) {
     fmt.Println("Response", res)
     
     if (res[3]==3) {
-
         addr := address {
             length:make([]byte, 1),
             port:make([]byte, 2),
         }
-
         conn.Read(addr.length)
-        addr.host := make([]byte, int(addr.length[0]))
+        addr.host = make([]byte, int(addr.length[0]))
         conn.Read(addr.host)            
         conn.Read(addr.port)
     }   

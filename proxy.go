@@ -85,28 +85,21 @@ func communicate (addr address)  {
     port := binary.BigEndian.Uint16(addr.port)
     servAddr := string(addr.host) + ":" + strconv.Itoa(int(port))
     fmt.Println("Address", servAddr);
-
-    tcpAddr, err := net.ResolveTCPAddr("tcp", servAddr)
-    if err != nil {
-        println("ResolveTCPAddr failed:", err.Error())
-        os.Exit(1)
-    }
-
-    co,err := net.DialTCP("tcp", nil, tcpAddr)
-    fmt.Println("TCP Address is", tcpAddr)
+    
+    co,err := net.Dial("tcp", servAddr)
+    fmt.Println("Address is ", servAddr)
     if err != nil {
         println("Dial failed:", err.Error())
         os.Exit(1)
     }    
     buf := make([]byte, 100)
-    // for {
+    for {
         _, err = co.Read(buf)
         if err != nil {
             fmt.Println("Fail to read from server " + servAddr, err.Error())
         }
         fmt.Println(buf)
-    // }
-
+    }
 }
 
 // o  X'02' "USERNAME/PASSWORD" method
